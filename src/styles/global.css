@@ -140,6 +140,16 @@ a.inline-block.leading-5.pl-12{
 	@apply mb-0;
 }
 
+.markdown table {
+	@apply w-full mb-8 border-collapse text-xl max-md:text-lg text-blacktext dark:text-gray-200;
+}
+.markdown th {
+	@apply text-left font-bold dark:text-white text-blacktext border-b-2 border-mint-500/50 px-4 py-3;
+}
+.markdown td {
+	@apply dark:text-gray-200 text-blacktext border-b border-zinc-200 dark:border-zinc-700 px-4 py-3 align-top leading-7;
+}
+
 .markdown :not(pre)>code {
 	@apply px-2 py-0.5;
 }
