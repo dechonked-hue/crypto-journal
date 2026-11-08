@@ -4,7 +4,10 @@ import { Icon } from "astro-icon/components";
 import Heading from "../components/ui/Heading.astro";
 import NavArticle from "../components/layout/NavArticle.astro";
 import Tools from "../components/portfolio/Tools.astro";
+import { getCollection } from "astro:content";
 const { frontmatter } = Astro.props;
+const [staticData] = await getCollection("staticData");
+const { profileImage } = staticData.data;
 ---
 
 <script>
@@ -43,6 +46,7 @@ const { frontmatter } = Astro.props;
               <div class="relative z-20 flex w-full rounded-full bg-mint-900">
                 <div
                   class="w-full aspect-square rounded-full bg-mint-900 bg-center bg-cover"
+                  style={`background-image: url(${profileImage})`}
                   aria-label="Crypto Journal"
                 >
                   <a
