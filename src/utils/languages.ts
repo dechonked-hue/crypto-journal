@@ -114,6 +114,14 @@ export const languages: Record<string, Language> = {
     name: "Ethereum",
     iconName: "ethereum",
   },
+  linux: {
+    name: "Linux",
+    iconName: "linux",
+  },
+  wireguard: {
+    name: "WireGuard",
+    iconName: "wireguard",
+  },
 };
 
 export const getLanguage = (lang: string): Language => {
