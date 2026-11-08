@@ -1,105 +1,20 @@
 ---
-import { getCollection } from 'astro:content';
-import BaseHead from '../components/BaseHead.astro';
-import Footer from '../components/Footer.astro';
-import FormattedDate from '../components/FormattedDate.astro';
-import Header from '../components/Header.astro';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import Layout from "../layouts/Layout.astro";
+import HeroIndex from "../components/portfolio/HeroIndex.astro";
+import ListPosts from "../components/blog/ListPosts.astro";
+import { getCollection } from "astro:content";
 
-const posts = (await getCollection('blog')).sort(
-	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
-);
+const [staticData] = await getCollection("staticData");
+const { pageTitle, pageDescription, OGImage } = staticData.data;
 ---
 
-<!doctype html>
-<html lang="en">
-	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-		<style>
-			main {
-				width: 960px;
-			}
-			ul {
-				display: flex;
-				flex-wrap: wrap;
-				gap: 2rem;
-				list-style-type: none;
-				margin: 0;
-				padding: 0;
-			}
-			ul li {
-				width: calc(50% - 1rem);
-			}
-			ul li * {
-				text-decoration: none;
-				transition: 0.2s ease;
-			}
-			ul li:first-child {
-				width: 100%;
-				margin-bottom: 1rem;
-				text-align: center;
-			}
-			ul li:first-child .title {
-				font-size: 2.369rem;
-			}
-			ul li a {
-				display: block;
-			}
-			.date {
-				margin: 0;
-				color: rgb(var(--gray));
-			}
-			.category {
-				margin: 0;
-				color: rgb(var(--gray));
-				font-size: 0.9em;
-			}
-			ul li a:hover h4,
-			ul li a:hover .date {
-				color: rgb(var(--accent));
-			}
-			@media (max-width: 720px) {
-				ul {
-					gap: 0.5em;
-				}
-				ul li {
-					width: 100%;
-					text-align: center;
-				}
-				ul li:first-child {
-					margin-bottom: 0;
-				}
-				ul li:first-child .title {
-					font-size: 1.563em;
-				}
-			}
-		</style>
-	</head>
-	<body>
-		<Header />
-		<main>
-			<h1>Crypto Journal</h1>
-			<p>
-				A developer-first crypto journal: programmatic execution, backtests, automation,
-				self-custody, and accumulation — with numbers, not hype.
-			</p>
-			<section>
-				<ul>
-					{posts.map((post) => (
-						<li>
-							<a href={`/blog/${post.id}/`}>
-								<h4 class="title">{post.data.title}</h4>
-								<p class="date">
-									<FormattedDate date={post.data.pubDate} />
-								</p>
-								{post.data.category && <p class="category">{post.data.category}</p>}
-								<p>{post.data.description}</p>
-							</a>
-						</li>
-					))}
-				</ul>
-			</section>
-		</main>
-		<Footer />
-	</body>
-</html>
+<Layout
+  pageTitle={pageTitle}
+  description={pageDescription}
+  ogimage={{ alt: OGImage.alt, url: OGImage.url }}
+>
+  <HeroIndex />
+  <div class="px-8 max-sm:px-4">
+    <ListPosts all={true} />
+  </div>
+</Layout>

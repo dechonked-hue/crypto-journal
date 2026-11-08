@@ -1,0 +1,33 @@
+{
+  "profileImage": "",
+  "profileAlt": "Crypto Journal",
+  "profileLink": "/about-me",
+  "profileTitle": "Crypto Journal",
+  "profileName": "chonk",
+  "github": "https://github.com/dechonked-hue/crypto-journal",
+  "githubText": "Do you like this site's design?",
+  "portfolioImage": "",
+  "alias": "chonk",
+  "contactSectionTitle": "Read the journal",
+  "contactSectionSubtitle": "Rules, runs, results.",
+  "contactSectionButtonText": "Read the Blog",
+  "contactSectionButtonIcon": "paperplane",
+  "techsTitle": "STACK",
+  "instagramIconName": "instagram",
+  "youtubeIconName": "youtube",
+  "githubIconName": "github",
+  "linkedinIconName": "linkedin",
+  "emailIconName": "envelope",
+  "hobbies": [
+    "Backtesting",
+    "Automation",
+    "Self-custody",
+    "Reading"
+  ],
+  "pageTitle": "Crypto Journal | chonk",
+  "pageDescription": "A developer-first crypto journal: programmatic execution, backtests, automation, self-custody, and accumulation \u2014 with numbers, not hype.",
+  "OGImage": {
+    "url": "",
+    "alt": "Crypto Journal"
+  }
+}
