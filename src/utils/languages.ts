@@ -126,6 +126,14 @@ export const languages: Record<string, Language> = {
     name: "BGP",
     iconName: "bgp",
   },
+  cisco: {
+    name: "Cisco",
+    iconName: "cisco",
+  },
+  "traffic-engineering": {
+    name: "Traffic Engineering",
+    iconName: "traffic-engineering",
+  },
 };
 
 export const getLanguage = (lang: string): Language => {
