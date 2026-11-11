@@ -122,6 +122,10 @@ export const languages: Record<string, Language> = {
     name: "WireGuard",
     iconName: "wireguard",
   },
+  bgp: {
+    name: "BGP",
+    iconName: "bgp",
+  },
 };
 
 export const getLanguage = (lang: string): Language => {
