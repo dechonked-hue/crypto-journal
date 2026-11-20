@@ -1,11 +1,16 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import HeroIndex from "../components/portfolio/HeroIndex.astro";
-import ListPosts from "../components/blog/ListPosts.astro";
 import { getCollection } from "astro:content";
 
 const [staticData] = await getCollection("staticData");
 const { pageTitle, pageDescription, OGImage } = staticData.data;
+
+const allPosts = await Astro.glob("./blog/posts/*.md");
+allPosts.sort((a, b) => {
+  const dateA = new Date(a.frontmatter.pubDate).getTime();
+  const dateB = new Date(b.frontmatter.pubDate).getTime();
+  return dateB - dateA;
+});
 ---
 
 <Layout
@@ -13,8 +18,112 @@ const { pageTitle, pageDescription, OGImage } = staticData.data;
   description={pageDescription}
   ogimage={{ alt: OGImage.alt, url: OGImage.url }}
 >
-  <HeroIndex />
-  <div class="px-8 max-sm:px-4">
-    <ListPosts all={true} />
-  </div>
+  <main class="mx-auto max-w-2xl px-6 py-16 md:py-24">
+    <h1
+      class="text-5xl font-black leading-none tracking-tight text-zinc-900 dark:text-zinc-100 md:text-6xl"
+    >
+      chonk
+    </h1>
+
+    <p class="mt-6 text-xl leading-relaxed text-zinc-700 dark:text-zinc-300">
+      I run a validator, I own a crappy bot, and I keep a journal so my
+      future self can't lie about the past one.
+    </p>
+    <p class="mt-3 text-base leading-relaxed text-zinc-500 dark:text-zinc-400">
+      Network engineer. Fell in love with tech, then crypto — ETH
+      especially. Bots and validators are the hobby.
+    </p>
+
+    <section class="mt-16">
+      <h2
+        class="text-sm font-bold uppercase tracking-widest text-zinc-500 dark:text-zinc-400"
+      >
+        Some things I made
+      </h2>
+      <ul class="mt-5 space-y-4 text-base leading-relaxed">
+        <li>
+          <a
+            href="/blog"
+            class="font-semibold text-zinc-900 underline decoration-zinc-400 underline-offset-4 hover:text-mint-500 dark:text-zinc-100 dark:hover:text-mint-300"
+            >Crypto Journal</a
+          >
+          <span class="text-zinc-500 dark:text-zinc-400">
+            — what I built, what I tested, and what the numbers said.</span
+          >
+        </li>
+        <li>
+          <span class="font-semibold text-zinc-900 dark:text-zinc-100"
+            >ETH paper bot</span
+          >
+          <span class="text-zinc-500 dark:text-zinc-400">
+            — a mean-reversion bot, ETH only. Paper trading.</span
+          >
+        </li>
+        <li>
+          <span class="font-semibold text-zinc-900 dark:text-zinc-100"
+            >GBC validator</span
+          >
+          <span class="text-zinc-500 dark:text-zinc-400">
+            — a validator I run. Part of the hobby.</span
+          >
+        </li>
+      </ul>
+    </section>
+
+    <section class="mt-16">
+      <h2
+        class="text-sm font-bold uppercase tracking-widest text-zinc-500 dark:text-zinc-400"
+      >
+        Writing
+      </h2>
+      <ul class="mt-5 space-y-3 text-base leading-relaxed">
+        {
+          allPosts.map((post) => (
+            <li class="flex flex-wrap items-baseline gap-x-3">
+              <a
+                href={post.url}
+                class="font-semibold text-zinc-900 underline decoration-zinc-400 underline-offset-4 hover:text-mint-500 dark:text-zinc-100 dark:hover:text-mint-300"
+              >
+                {post.frontmatter.title}
+              </a>
+              <span class="text-sm text-zinc-500 dark:text-zinc-400">
+                {new Date(post.frontmatter.pubDate).toLocaleDateString(
+                  "en-GB",
+                  { day: "numeric", month: "short", year: "numeric" },
+                )}
+              </span>
+            </li>
+          ))
+        }
+      </ul>
+      <p class="mt-5">
+        <a
+          href="/blog"
+          class="text-base font-semibold text-zinc-900 underline decoration-zinc-400 underline-offset-4 hover:text-mint-500 dark:text-zinc-100 dark:hover:text-mint-300"
+          >All posts →</a
+        >
+      </p>
+    </section>
+
+    <section class="mt-16">
+      <h2
+        class="text-sm font-bold uppercase tracking-widest text-zinc-500 dark:text-zinc-400"
+      >
+        Say hi
+      </h2>
+      <p class="mt-5 text-base leading-relaxed">
+        <a
+          href="https://x.com/cryptochonkz"
+          class="font-semibold text-zinc-900 underline decoration-zinc-400 underline-offset-4 hover:text-mint-500 dark:text-zinc-100 dark:hover:text-mint-300"
+          >X — @cryptochonkz</a
+        >
+        <span class="text-zinc-500 dark:text-zinc-400"> · </span>
+        <a
+          href="https://github.com/dechonked-hue/crypto-journal"
+          class="font-semibold text-zinc-900 underline decoration-zinc-400 underline-offset-4 hover:text-mint-500 dark:text-zinc-100 dark:hover:text-mint-300"
+          >GitHub</a
+        >
+      </p>
+    </section>
+  </main>
 </Layout>
