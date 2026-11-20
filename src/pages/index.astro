@@ -1,10 +1,4 @@
 ---
-import Layout from "../layouts/Layout.astro";
-import { getCollection } from "astro:content";
-
-const [staticData] = await getCollection("staticData");
-const { pageTitle, pageDescription, OGImage } = staticData.data;
-
 const allPosts = await Astro.glob("./blog/posts/*.md");
 allPosts.sort((a, b) => {
   const dateA = new Date(a.frontmatter.pubDate).getTime();
@@ -13,117 +7,382 @@ allPosts.sort((a, b) => {
 });
 ---
 
-<Layout
-  pageTitle={pageTitle}
-  description={pageDescription}
-  ogimage={{ alt: OGImage.alt, url: OGImage.url }}
->
-  <main class="mx-auto max-w-2xl px-6 py-16 md:py-24">
-    <h1
-      class="text-5xl font-black leading-none tracking-tight text-zinc-900 dark:text-zinc-100 md:text-6xl"
-    >
-      chonk
-    </h1>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Crypto Journal | chonk</title>
+    <meta
+      name="description"
+      content="A network engineer's crypto journal. ETH, bots, validators — what I built, what I tested, and what the numbers said."
+    />
+    <link
+      rel="canonical"
+      href="https://crypto-journal.dechonked.workers.dev/"
+    />
+    <link rel="icon" href="/favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" href="/favicon-16x16.png" sizes="16x16" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@400;500&family=Baloo+2:wght@600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style is:global>
+      :root {
+        --paper: #fff6ea;
+        --paper-2: #ffeed8;
+        --ink: #0033e6;
+        --hover: #c8b5ff;
+        --rule: rgb(0 51 230 / 0.2);
+        --gutter: clamp(1rem, 1.5rem + 2.5vw, 3rem);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        margin: 0;
+        background: var(--paper);
+        color: var(--ink);
+        font-family: "Archivo Narrow", Arial, sans-serif;
+        font-size: 1.125rem;
+        line-height: 1.5;
+      }
+      ::selection {
+        background: var(--hover);
+        color: var(--ink);
+      }
+      :focus-visible {
+        outline: 2px solid var(--ink);
+        outline-offset: 2px;
+      }
+      main {
+        overflow-x: clip;
+      }
+      section {
+        margin: 0 auto;
+        padding-left: var(--gutter);
+        padding-right: var(--gutter);
+      }
+      h1,
+      h2 {
+        font-family: "Baloo 2", Arial, sans-serif;
+        font-weight: 800;
+        text-wrap: balance;
+      }
 
-    <p class="mt-6 text-xl leading-relaxed text-zinc-700 dark:text-zinc-300">
-      I run a validator, I own a crappy bot, and I keep a journal so my
-      future self can't lie about the past one.
-    </p>
-    <p class="mt-3 text-base leading-relaxed text-zinc-500 dark:text-zinc-400">
-      Network engineer. Fell in love with tech, then crypto — ETH
-      especially. Bots and validators are the hobby.
-    </p>
-
-    <section class="mt-16">
-      <h2
-        class="text-sm font-bold uppercase tracking-widest text-zinc-500 dark:text-zinc-400"
-      >
-        Some things I made
-      </h2>
-      <ul class="mt-5 space-y-4 text-base leading-relaxed">
-        <li>
-          <a
-            href="/blog"
-            class="font-semibold text-zinc-900 underline decoration-zinc-400 underline-offset-4 hover:text-mint-500 dark:text-zinc-100 dark:hover:text-mint-300"
-            >Crypto Journal</a
-          >
-          <span class="text-zinc-500 dark:text-zinc-400">
-            — what I built, what I tested, and what the numbers said.</span
-          >
-        </li>
-        <li>
-          <span class="font-semibold text-zinc-900 dark:text-zinc-100"
-            >ETH paper bot</span
-          >
-          <span class="text-zinc-500 dark:text-zinc-400">
-            — a mean-reversion bot, ETH only. Paper trading.</span
-          >
-        </li>
-        <li>
-          <span class="font-semibold text-zinc-900 dark:text-zinc-100"
-            >GBC validator</span
-          >
-          <span class="text-zinc-500 dark:text-zinc-400">
-            — a validator I run. Part of the hobby.</span
-          >
-        </li>
-      </ul>
-    </section>
-
-    <section class="mt-16">
-      <h2
-        class="text-sm font-bold uppercase tracking-widest text-zinc-500 dark:text-zinc-400"
-      >
-        Writing
-      </h2>
-      <ul class="mt-5 space-y-3 text-base leading-relaxed">
-        {
-          allPosts.map((post) => (
-            <li class="flex flex-wrap items-baseline gap-x-3">
-              <a
-                href={post.url}
-                class="font-semibold text-zinc-900 underline decoration-zinc-400 underline-offset-4 hover:text-mint-500 dark:text-zinc-100 dark:hover:text-mint-300"
-              >
-                {post.frontmatter.title}
-              </a>
-              <span class="text-sm text-zinc-500 dark:text-zinc-400">
-                {new Date(post.frontmatter.pubDate).toLocaleDateString(
-                  "en-GB",
-                  { day: "numeric", month: "short", year: "numeric" },
-                )}
-              </span>
-            </li>
-          ))
+      /* Hero */
+      .hero {
+        max-width: 62rem;
+        padding-top: clamp(4rem, 10vw, 8rem);
+      }
+      .eyes {
+        width: clamp(5rem, 9vw, 8rem);
+        margin: 0 0 0.32em -0.04em;
+        display: block;
+      }
+      .eyes .eye {
+        transform-box: fill-box;
+        transform-origin: center;
+        animation: blink 5.2s infinite;
+      }
+      .eyes .eye + .eye {
+        animation-delay: 0.12s;
+      }
+      @keyframes blink {
+        0%,
+        93%,
+        100% {
+          transform: scaleY(1);
         }
-      </ul>
-      <p class="mt-5">
-        <a
-          href="/blog"
-          class="text-base font-semibold text-zinc-900 underline decoration-zinc-400 underline-offset-4 hover:text-mint-500 dark:text-zinc-100 dark:hover:text-mint-300"
-          >All posts →</a
-        >
-      </p>
-    </section>
+        95% {
+          transform: scaleY(0.08);
+        }
+        97% {
+          transform: scaleY(1);
+        }
+      }
+      .hero h1 {
+        font-size: clamp(2.75rem, 1.6rem + 3.6vw, 4.5rem);
+        line-height: 1.02;
+        letter-spacing: -0.01em;
+        margin: 0 0 0.75em;
+        width: fit-content;
+      }
+      .hero .intro {
+        max-width: 32rem;
+        font-size: 1.125rem;
+        margin: 0;
+      }
+      .hero .intro-sub {
+        max-width: 32rem;
+        font-size: 1.125rem;
+        margin: 0.75rem 0 0;
+        opacity: 0.75;
+      }
 
-    <section class="mt-16">
-      <h2
-        class="text-sm font-bold uppercase tracking-widest text-zinc-500 dark:text-zinc-400"
-      >
-        Say hi
-      </h2>
-      <p class="mt-5 text-base leading-relaxed">
-        <a
-          href="https://x.com/cryptochonkz"
-          class="font-semibold text-zinc-900 underline decoration-zinc-400 underline-offset-4 hover:text-mint-500 dark:text-zinc-100 dark:hover:text-mint-300"
-          >X — @cryptochonkz</a
+      /* Sections */
+      .projects,
+      .writing,
+      .sayhi {
+        padding-top: clamp(6rem, 11vw, 9rem);
+      }
+      .projects,
+      .writing {
+        max-width: 62rem;
+      }
+      .section-title {
+        font-size: clamp(1.5rem, 1.1rem + 1.9vw, 2.25rem);
+        line-height: 1.15;
+        text-align: center;
+        margin: 0;
+      }
+
+      /* Rows */
+      .rows {
+        margin-top: clamp(4.5rem, 7vw, 6rem);
+      }
+      .row {
+        display: grid;
+        grid-template-columns: minmax(10rem, 20.5rem) 1fr auto;
+        gap: 0 1.5rem;
+        align-items: baseline;
+        padding: 0.7rem 0.25rem;
+        border-top: 1px solid var(--rule);
+      }
+      .row:last-child {
+        border-bottom: 1px solid var(--rule);
+      }
+      .row a {
+        color: inherit;
+        text-decoration: none;
+      }
+      .r-name {
+        font-family: "Baloo 2", Arial, sans-serif;
+        font-weight: 600;
+        font-size: clamp(1.25rem, 1rem + 1vw, 1.5rem);
+        line-height: 2rem;
+        transition: -webkit-text-stroke 0.2s;
+      }
+      .r-desc {
+        font-size: 1.125rem;
+      }
+      .r-arrow {
+        font-family: "Baloo 2", Arial, sans-serif;
+        font-size: 1.5rem;
+        line-height: 1;
+        transition: transform 0.2s;
+      }
+      a.row:hover .r-name {
+        -webkit-text-stroke: 0.04em currentColor;
+      }
+      a.row:hover .r-arrow {
+        transform: translate(3px, -3px);
+      }
+      @media (max-width: 640px) {
+        .row {
+          grid-template-columns: 1fr auto;
+        }
+        .r-desc {
+          grid-column: 1 / -1;
+        }
+      }
+
+      .all-posts {
+        text-align: center;
+        margin-top: 2.5rem;
+      }
+      .all-posts a {
+        color: inherit;
+        text-underline-offset: 3px;
+        font-weight: 500;
+      }
+
+      /* Say hi */
+      .sayhi {
+        text-align: center;
+        padding-bottom: 2rem;
+      }
+      .sayhi img {
+        width: 7rem;
+        height: 7rem;
+        border-radius: 50%;
+        border: 2px solid var(--ink);
+        background: var(--paper-2);
+        object-fit: cover;
+        margin-bottom: 1.5rem;
+      }
+      .pills {
+        display: flex;
+        justify-content: center;
+        gap: 0.6rem;
+        flex-wrap: wrap;
+        margin-top: clamp(4.5rem, 7vw, 6rem);
+      }
+      .btn {
+        font-family: "Archivo Narrow", Arial, sans-serif;
+        font-weight: 500;
+        font-size: 1.25rem;
+        line-height: 1.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: var(--ink);
+        text-decoration: none;
+        padding: calc(0.5rem + 1px) 2rem 0.5rem;
+        border: 1px solid var(--ink);
+        border-radius: 999px;
+        background: var(--paper);
+      }
+      .btn:hover,
+      .btn:focus-visible {
+        background: var(--hover);
+        border-color: var(--hover);
+      }
+      .end {
+        height: clamp(7rem, 11vw, 9rem);
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <section class="hero">
+        <svg
+          class="eyes"
+          viewBox="0 0 200 90"
+          aria-hidden="true"
+          fill="none"
+          stroke="#0033e6"
+          stroke-width="5"
         >
-        <span class="text-zinc-500 dark:text-zinc-400"> · </span>
-        <a
-          href="https://github.com/dechonked-hue/crypto-journal"
-          class="font-semibold text-zinc-900 underline decoration-zinc-400 underline-offset-4 hover:text-mint-500 dark:text-zinc-100 dark:hover:text-mint-300"
-          >GitHub</a
-        >
-      </p>
-    </section>
-  </main>
-</Layout>
+          <g class="eye">
+            <ellipse cx="50" cy="45" rx="42" ry="40" fill="#fff6ea"></ellipse>
+            <circle class="pupil" cx="50" cy="45" r="14" fill="#0033e6" stroke="none"></circle>
+          </g>
+          <g class="eye">
+            <ellipse cx="150" cy="45" rx="42" ry="40" fill="#fff6ea"></ellipse>
+            <circle class="pupil" cx="150" cy="45" r="14" fill="#0033e6" stroke="none"></circle>
+          </g>
+        </svg>
+        <h1>chonk</h1>
+        <p class="intro">
+          I run a validator, I own a crappy bot, and I keep a journal so my
+          future self can't lie about the past one.
+        </p>
+        <p class="intro-sub">
+          Network engineer. Fell in love with tech, then crypto — ETH
+          especially. Bots and validators are the hobby.
+        </p>
+      </section>
+
+      <section class="projects">
+        <h2 class="section-title">Some things I made</h2>
+        <div class="rows">
+          <a class="row" href="/blog">
+            <span class="r-name">Crypto Journal</span>
+            <span class="r-desc"
+              >What I built, what I tested, and what the numbers said.</span
+            >
+            <span class="r-arrow">↗</span>
+          </a>
+          <div class="row">
+            <span class="r-name">ETH paper bot</span>
+            <span class="r-desc"
+              >A mean-reversion bot, ETH only. Paper trading.</span
+            >
+            <span></span>
+          </div>
+          <div class="row">
+            <span class="r-name">GBC validator</span>
+            <span class="r-desc">A validator I run. Part of the hobby.</span>
+            <span></span>
+          </div>
+        </div>
+      </section>
+
+      <section class="writing">
+        <h2 class="section-title">Writing</h2>
+        <div class="rows">
+          {
+            allPosts.map((post) => (
+              <a class="row" href={post.url}>
+                <span class="r-name">{post.frontmatter.title}</span>
+                <span class="r-desc">
+                  {new Date(post.frontmatter.pubDate).toLocaleDateString(
+                    "en-GB",
+                    { day: "numeric", month: "short", year: "numeric" },
+                  )}
+                </span>
+                <span class="r-arrow">↗</span>
+              </a>
+            ))
+          }
+        </div>
+        <p class="all-posts"><a href="/blog">All posts →</a></p>
+      </section>
+
+      <section class="sayhi">
+        <img
+          src="/images/1794140225570.jpg"
+          alt="chonk"
+          width="112"
+          height="112"
+        />
+        <h2 class="section-title">Say hi</h2>
+        <div class="pills">
+          <a class="btn" href="https://x.com/cryptochonkz">X</a>
+          <a
+            class="btn"
+            href="https://github.com/dechonked-hue/crypto-journal">GitHub</a
+          >
+        </div>
+      </section>
+
+      <div class="end"></div>
+    </main>
+
+    <script>
+      // Googly eyes: pupils follow the cursor, max ~13px from centre.
+      (function () {
+        var pupils = Array.prototype.slice.call(
+          document.querySelectorAll(".eyes .pupil"),
+        );
+        if (!pupils.length) return;
+        var svg = document.querySelector(".eyes");
+        var centres = pupils.map(function (p) {
+          var cx = parseFloat(p.getAttribute("cx"));
+          var cy = parseFloat(p.getAttribute("cy"));
+          return { el: p, cx: cx, cy: cy };
+        });
+        function move(x, y) {
+          var rect = svg.getBoundingClientRect();
+          var scaleX = 200 / rect.width;
+          var scaleY = 90 / rect.height;
+          centres.forEach(function (c) {
+            var px = (x - rect.left) * scaleX;
+            var py = (y - rect.top) * scaleY;
+            var dx = px - c.cx;
+            var dy = py - c.cy;
+            var len = Math.sqrt(dx * dx + dy * dy) || 1;
+            var max = 13;
+            if (len > max) {
+              dx = (dx / len) * max;
+              dy = (dy / len) * max;
+            }
+            c.el.setAttribute(
+              "transform",
+              "translate(" + dx.toFixed(1) + " " + dy.toFixed(1) + ")",
+            );
+          });
+        }
+        window.addEventListener("mousemove", function (e) {
+          move(e.clientX, e.clientY);
+        });
+      })();
+    </script>
+  </body>
+</html>
